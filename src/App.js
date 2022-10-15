@@ -16,9 +16,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { Route, Router, Routes } from "react-router-dom";
+
+import { Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 
@@ -29,16 +28,20 @@ import ReduceCapacityIcon from "@mui/icons-material/ReduceCapacity";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 // Logo on banner
 import logo from "./Logo.png";
 
 //Pages
-import Capacity from "./pages/capacity";
-import Consumption from "./pages/consumption";
-import DeliveryStatus from "./pages/deliveryStatus";
-import InventoryBalance from "./pages/inventoryBalance";
-import Ordering from "./pages/ordering";
-import Dashboard from "./pages/dashboard";
+import Capacity from "./pages/Capacity";
+import Consumption from "./pages/Consumption";
+import DeliveryStatus from "./pages/DeliveryStatus";
+import InventoryBalance from "./pages/InventoryBalance";
+import Ordering from "./pages/Ordering";
+import Dashboard from "./pages/Dashboard";
+import HealthcareProvider from "./pages/HealthcareProvider"
+import VaccineSupplier from "pages/VaccineSupplier";
 
 
 
@@ -48,7 +51,7 @@ import { MappingProvider, useMap } from 'react-router-mapping';
 
 
 
-const MenuItems = [{
+export const MenuItems = [{
   text: "Dash Board",
   path: '/dashBoard',
   component: <Dashboard/>,
@@ -73,12 +76,27 @@ const MenuItems = [{
   path: '/capacity',
   component: <Capacity/>,
   icon: <ReduceCapacityIcon />,
-}, {
+}, 
+
+{
+  text: "vårdgivare",    
+  path: '/HealthcareProvider',
+  component: <HealthcareProvider/>,
+  icon: <MedicationLiquidIcon />
+}
+
+,{
   text: "Beställning",    
   path: '/ordering',
   component: <Ordering/>,
   icon: <ViewListIcon />,
-}, ];
+} 
+,{
+  text: "Vaccin Leverantör",    
+  path: '/vaccinesupplier',
+  component: <VaccineSupplier/>,
+  icon: <SupportAgentIcon />,
+} ];
 
 
 
