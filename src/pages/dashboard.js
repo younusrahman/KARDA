@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material'
 import React, {useEffect} from 'react'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PeopleIcon from '@mui/icons-material/PeopleOutlined';
 import { CardComponent } from 'component/CardComponent';
 import { useSelector} from 'react-redux';

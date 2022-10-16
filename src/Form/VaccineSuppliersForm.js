@@ -1,31 +1,22 @@
-import React, { useState, SyntheticEvent } from "react";
-
-
+import React, { useState } from "react";
+import Select from '@mui/material/Select';
+import { ChangeModalStatus } from "features/Slices/ModalSlice";
+import { purple } from "@mui/material/colors";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import SaveIcon from "@mui/icons-material/Save";
+import { useSelector, useDispatch } from "react-redux";
+import { AddSupplier } from "features/Slices/VaccineSupplierSlice";
 import {
-  FilledInput,
   Typography,
   Card,FormControl,
   CardContent,
   Grid,MenuItem,
   TextField,InputLabel,
-  useMediaQuery,
 } from "@mui/material";
-import { ServerAdd } from "features/Slices/ServerSlice";
-
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-import { ChangeModalStatus } from "features/Slices/ModalSlice";
-
-import { purple } from "@mui/material/colors";
-import { ThemeProvider, useTheme, createTheme } from "@mui/material/styles";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
-import SaveIcon from "@mui/icons-material/Save";
-
-import { useSelector, useDispatch } from "react-redux";
 
 const schema = yup
   .object()
@@ -42,7 +33,6 @@ export default function VaccineSuppliersForm() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -85,21 +75,20 @@ export default function VaccineSuppliersForm() {
   });
 
   const handelSubmitForm = (e) => {
+    //Button status disable and loading animation on
     setLoading(true);
-     
-          const supplier = {
-            supplierName: allValues.supplierName,
-      healthcareProvidersId: allValues.healthcareProvidersId,
-    };
-
+  
+    //Send item to DB
     
-    
+    dispatch(AddSupplier(allValues))
 
-    dispatch(ServerAdd({type:"VaccineSuppliers", values:supplier}))
-
+    //Button status enable and loading animation off
   setLoading(false);
 
-      dispatch(ChangeModalStatus(false))
+    //Close PopUp Form
+    dispatch(ChangeModalStatus(false))
+
+
     e.preventDefault();
   };
 

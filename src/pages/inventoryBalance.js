@@ -1,13 +1,15 @@
 
 
-import React, {useEffect, useState} from 'react'
-import { ServerUpdate, ServerDelete } from 'features/Slices/ServerSlice'
+import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import ModalComponent from 'component/ModalComponent'
 import TabelComponent from 'component/TabelComponent'
 import AddIcon from '@mui/icons-material/Add';
 import { RefillDatabaseFunction } from 'features/RefillDatabase'
 import InventoryBalanceForm from 'Form/InventoryBalanceForm'
+import { InventoryBalanceColumns } from 'features/AllColumns'
+import { UpdateInventoryBalance, DeleteInventoryBalance } from "features/Slices/InventoryBalanceSlice";
+
 
 
 
@@ -15,7 +17,7 @@ export default function InventoryBalance() {
 
 
     const {GetAllInventoryBalance} = useSelector((state) => state.InventoryBalance)
-    const [GetRow, setRow]= useState()
+   
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -23,41 +25,10 @@ export default function InventoryBalance() {
         
     }, [])
 
+  
     
 
-    const columns = [
-      { field: 'id', headerName: 'ID', width: 300 },
-      { field: 'inventoryDateTime',
-        headerName: 'Datum Tid',
-        type: 'date',
-        width: 150,
-        editable: true,
-      },
-      { field: 'quantityVial',
-        headerName: 'Kvantitet vial',
-        width: 150,
-        editable: true,
-      }
-      ,
-      { field: 'quantityDose',
-        headerName: 'Kvantitet dos',
-        width: 150,
-        editable: true,
-      }
-      ,
-      { field: 'healthcareProvidersId',
-        headerName: 'Vårdgivare Id',
-        width: 150,
-        editable: false,
-      },
-      { field: 'vaccineSupplierId',
-      headerName: 'Leverantör Id',
-      width: 150,
-      editable: false,
-    }
-
-            
-    ];
+    
 
 
 
@@ -66,23 +37,19 @@ export default function InventoryBalance() {
 
     const modal = <ModalComponent text="Lägg till Lagersaldo"  icon={<AddIcon />} CustomizeForm={InventoryBalanceForm}/>
 
-    function handelDeleteEvent(ids) {
-      
-        dispatch(ServerDelete({type:"inventoryBalances", ids:ids}))
 
-    }
     
 
   return (
     <div>
       <TabelComponent title={"LagerSaldo"} 
       type="inventoryBalances"
-      editFunc={ServerUpdate}
+      editFunc={UpdateInventoryBalance}
       values={GetAllInventoryBalance} 
-      allColumns={columns} 
+      allColumns={InventoryBalanceColumns} 
       CustomizedModal={modal} 
-      deleteOnClick={handelDeleteEvent} 
-      setRow={setRow}
+      deleteOnClick={ids => dispatch(DeleteInventoryBalance(ids))} 
+    
        />
 
     </div>

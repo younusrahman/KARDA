@@ -15,7 +15,7 @@ export default function TabelComponent({
   CustomizedModal,
   deleteOnClick,
   editFunc,
-  type,
+  type,apiRef 
 }) {
   
 
@@ -89,7 +89,7 @@ const EnsureArray = Array.isArray(values) ? values : []
         <DataGrid
           rows={EnsureArray}
           columns={allColumns}
-         
+          apiRef={apiRef}
           editMode="row"
           rowsPerPageOptions={[5,10,20]}
           checkboxSelection

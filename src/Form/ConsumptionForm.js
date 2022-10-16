@@ -1,31 +1,25 @@
-import React, { useState, SyntheticEvent, useEffect } from "react";
-
+import React, { useState } from "react";
+import { purple } from "@mui/material/colors";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import SaveIcon from "@mui/icons-material/Save";
+import { useSelector, useDispatch } from "react-redux";
+import { ChangeModalStatus } from "features/Slices/ModalSlice";
 import {
-  FilledInput,
   Typography,
   Card,
   CardContent,
   Grid,
   TextField,
-  useMediaQuery,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
 } from "@mui/material";
-
-import { purple } from "@mui/material/colors";
-import { ThemeProvider, useTheme, createTheme } from "@mui/material/styles";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
-import SaveIcon from "@mui/icons-material/Save";
-import { useSelector, useDispatch } from "react-redux";
-import { ChangeModalStatus } from "features/Slices/ModalSlice";
-import { ServerAdd } from "features/Slices/ServerSlice";
-import HealthcareProviderSlice from "features/Slices/HealthcareProviderSlice";
+import { AddConsumption } from "features/Slices/ConsumptionSlice";
 
 const schema = yup
   .object()
@@ -38,18 +32,19 @@ const schema = yup
   .required();
 
 export default function HealthcareProviderForm() {
-  const {GetAllHCProveiders} = useSelector((state) => state.HealthcareProvider)
-  const {GetAllVaccineSuppliers} = useSelector((state) => state.VaccineSupplier)
+  const { GetAllHCProveiders } = useSelector(
+    (state) => state.HealthcareProvider
+  );
+  const { GetAllVaccineSuppliers } = useSelector(
+    (state) => state.VaccineSupplier
+  );
 
-
-  const { Status } = useSelector((state) => state.Modal);
   const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -91,19 +86,19 @@ export default function HealthcareProviderForm() {
   });
 
   const handelSubmitForm = (e) => {
+    //Button status disable and loading animation on
     setLoading(true);
 
-    const consumption = {
-      useByDate: allValues.useByDate,
-      quantityVial: allValues.quantityVial,
-      vaccineSupplierId: allValues.vaccineSupplierId,
-      healthcareProvidersId: allValues.healthcareProvidersId,
-    };
-    dispatch(ServerAdd({ type: "Consumptions", values: consumption }));
+    //Send item to DB
 
+    dispatch(AddConsumption(allValues));
+
+    //Button status enable and loading animation off
     setLoading(false);
 
+    //Close PopUp Form
     dispatch(ChangeModalStatus(false));
+
     e.preventDefault();
   };
 
@@ -154,11 +149,12 @@ export default function HealthcareProviderForm() {
                 </Grid>
                 <Grid
                   item
-                  className="w-full mt-4" sx={{ display:"flex", justifyContent:"center" }}
+                  className="w-full mt-4"
+                  sx={{ display: "flex", justifyContent: "center" }}
                 >
-                   <FormControl variant="standard" className="w-11/12">
+                  <FormControl variant="standard" className="w-11/12">
                     <InputLabel id="demo-simple-select-standard-label">
-                    Välja vårdgivare
+                      Välja vårdgivare
                     </InputLabel>
                     <Select
                       required
@@ -174,20 +170,24 @@ export default function HealthcareProviderForm() {
                         <em>None</em>
                       </MenuItem>
 
-                      {GetAllHCProveiders.map(HCProvider => {
-                        return <MenuItem key={HCProvider.id} value={HCProvider.id}>{HCProvider.name}</MenuItem>
+                      {GetAllHCProveiders.map((HCProvider) => {
+                        return (
+                          <MenuItem key={HCProvider.id} value={HCProvider.id}>
+                            {HCProvider.name}
+                          </MenuItem>
+                        );
                       })}
-               
                     </Select>
-                  </FormControl> 
+                  </FormControl>
                 </Grid>
                 <Grid
                   item
-                  className="w-full mt-4" sx={{ display:"flex", justifyContent:"center" }}
+                  className="w-full mt-4"
+                  sx={{ display: "flex", justifyContent: "center" }}
                 >
-                   <FormControl variant="standard" className="w-11/12">
+                  <FormControl variant="standard" className="w-11/12">
                     <InputLabel id="demo-simple-select-standard-label">
-                    Välja leverantör
+                      Välja leverantör
                     </InputLabel>
                     <Select
                       required
@@ -203,12 +203,15 @@ export default function HealthcareProviderForm() {
                         <em>None</em>
                       </MenuItem>
 
-                      {GetAllVaccineSuppliers.map(supplier => {
-                        return <MenuItem key={supplier.id} value={supplier.id}>{supplier.supplierName}</MenuItem>
+                      {GetAllVaccineSuppliers.map((supplier) => {
+                        return (
+                          <MenuItem key={supplier.id} value={supplier.id}>
+                            {supplier.supplierName}
+                          </MenuItem>
+                        );
                       })}
-               
                     </Select>
-                  </FormControl> 
+                  </FormControl>
                 </Grid>
 
                 <Grid

@@ -5,11 +5,13 @@ import { store } from "app/store";
 
 
 const  baseUrl = "https://localhost:7133/api";
+const statusType= {idle:"Idle", loading : "Loading", fulfilled : "Fulfilled", rejected : "Rejected"  }
 
 
 
-async function GetAllAsync(props){
+export async function RefillAsync(props){
 
+  
   const url = `${baseUrl}/${props.type}`
 
     await axios({
@@ -18,12 +20,12 @@ async function GetAllAsync(props){
         headers:{'Content-Type': 'application/json; charset=utf-8'}
     })    
     .then((response) => {
-      store.dispatch(ServerGetAllForStatus("fulfilled"))
+      store.dispatch(ServerRefillSuccess())
       store.dispatch(props.func(response.data))
       return;
     })
     .catch((error) => {
-      store.dispatch(ServerGetAllError( {status:"rejected", errorDetails : error}))
+      store.dispatch(ServerRefillError(error))
       return;
 
     });
@@ -31,7 +33,8 @@ async function GetAllAsync(props){
 }
 
 
-async function AddAsync({type, values}){
+export async function AddAsync({type, values}){
+
 
   const url = `${baseUrl}/${type}`
 
@@ -42,11 +45,11 @@ async function AddAsync({type, values}){
         headers:{'Content-Type': 'application/json; charset=utf-8'}
     })    
     .then((response) => {
-      store.dispatch(ServerAddForStatus("fulfilled"))
+      store.dispatch(ServerAddSuccess())
       return;
     })
     .catch((error) => {
-      store.dispatch(ServerAddError( {status:"rejected", errorDetails : error}))
+      store.dispatch(ServerAddError(error))
       return;
 
     });
@@ -54,12 +57,9 @@ async function AddAsync({type, values}){
 }
 
 
-async function UpdateAsync({type, id, values}){
+export async function UpdateAsync({type, id, values}){
   const url = `${baseUrl}/${type}/${id}`
-
-  console.log(id);
-  console.log(JSON.stringify(values));
-
+    
     await axios({
         method: 'PUT',
         url, 
@@ -67,11 +67,11 @@ async function UpdateAsync({type, id, values}){
         headers:{'Content-Type': 'application/json; charset=utf-8'}
     })    
     .then((response) => {
-      store.dispatch(ServerUpdateForStatus("fulfilled"))
+      store.dispatch(ServerUpdateSuccess())
       return;
     })
     .catch((error) => {
-      store.dispatch(ServerUpdateError( {status:"rejected", errorDetails : error}))
+      store.dispatch(ServerUpdateError(error))
       return;
 
     });
@@ -79,7 +79,7 @@ async function UpdateAsync({type, id, values}){
 }
 
 
-async function DeleteAsync({type, ids}){
+export async function DeleteAsync({type, ids}){
 
   const url = `${baseUrl}/${type}`
 
@@ -90,26 +90,15 @@ async function DeleteAsync({type, ids}){
         headers:{'Content-Type': 'application/json; charset=utf-8'}
     })    
     .then((response) => {
-      store.dispatch(ServerAddForStatus("fulfilled"))
+      store.dispatch(ServerDeleteSuccess())
       return;
     })
     .catch((error) => {
-      store.dispatch(ServerAddError( {status:"rejected", errorDetails : error}))
+      store.dispatch(ServerDeleteError(error))
       return;
 
     });
 
-
-  // const url = `${baseUrl}/${type}/${id}`
-
-  //   console.log(url)
-  //   console.log(type)
-  //   console.log(id)
-  //   await axios.delete(url)
-  //   .then(response => store.dispatch(ServerDeleteForStatus("fulfilled")))
-  //   .catch(error => {
-  //     store.dispatch(ServerDeleteError( {status:"rejected", errorDetails : error}))
-  //   });  
 }
 
 
@@ -118,127 +107,79 @@ async function DeleteAsync({type, ids}){
 // ------------------------------------------Slice
 
 
-
+//Status Variable
 const initialState = {
-  GetAll: {
-    status : "idle",
+  Refill: {
+    status : statusType.idle,
     ErrorMsg : "",
   },
   Add: {
-    status : "idle",
+    status : statusType.idle,
     ErrorMsg : "",
   },
   Update: {
-    status : "idle",
+    status : statusType.idle,
     ErrorMsg : "",
   },
   Delete: {
-    status : "idle",
+    status : statusType.idle,
     ErrorMsg : "",
   }
 
   
 }
 
-
+//Maintain CURD oparations status only
 export const ServerSlice = createSlice({
-  name: 'server/CURD',
+  name: 'server/status',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
-  reducers: {
-    ServerGetAll : (state, {payload}) => {
-      state.GetAll.status = "waiting"
-      GetAllAsync({type:payload.type, func : payload.func})
-
+  reducers: {  
+    ServerRefillSuccess : (state) => {
+      state.Refill.status = statusType.fulfilled
     },
-  
-    ServerGetAllForStatus : (state, {payload}) => {
-      state.GetAll.status = payload
-    },
-    ServerGetAllError: (state, {payload}) => {
-      state.GetAll.status = payload.status
-      state.GetAll.ErrorMsg = payload.errorDetails;
+    ServerRefillError: (state, {payload}) => {
+      state.Refill.status = statusType.rejected
+      state.Refill.ErrorMsg = payload;
 
     },
 
 
-
-    ServerAdd : (state, {payload}) => {
-      
-      state.Add.status = "waiting"
-      AddAsync({type:payload.type, values:payload.values})
-
-    },
-  
-    ServerAddForStatus : (state, {payload}) => {
-      state.Add.status = payload
+    ServerAddSuccess : (state) => {
+      state.Add.status = statusType.fulfilled
     },
     ServerAddError: (state, {payload}) => {
-      state.Add.status = payload.status
-      state.Add.ErrorMsg = payload.errorDetails;
-
+      state.Add.status = statusType.rejected
+      state.Add.ErrorMsg = payload;
     },
 
-    ServerUpdate : (state, {payload}) => {
-      state.GetAll.status = "waiting"
-      UpdateAsync({type:payload.type, id:payload.id, values:payload.values})
 
-    },
   
-    ServerUpdateForStatus : (state, {payload}) => {
-      state.Update.status = payload
+    ServerUpdateSuccess: (state) => {
+      state.Update.status = statusType.fulfilled
     },
-    ServerUpdateError: (state, {payload}) => {
-      state.Update.status = payload.status
-      state.Update.ErrorMsg = payload.errorDetails;
+    ServerUpdateError: (state,{payload}) => {
+      state.Update.status = statusType.rejected
+      state.Update.ErrorMsg = payload;
 
     },
-    ServerDelete : (state, {payload}) => {
-      state.GetAll.status = "waiting"
 
-      DeleteAsync({type:payload.type, ids:payload.ids})
-      
-      // DeleteAsync({type:payload.type, id:payload.id})
-    },
   
-    ServerDeleteForStatus : (state, {payload}) => {
-
-      state.Delete.status = payload
+    ServerDeleteSuccess : (state) => {
+      state.Delete.status = statusType.fulfilled
     },
     ServerDeleteError: (state, {payload}) => {
-      state.Delete.status = payload.status
-      state.Delete.ErrorMsg = payload.errorDetails;
-
-    }
-
-
-    
+      state.Delete.status = statusType.rejected
+      state.Delete.ErrorMsg = payload;}
+  
   },
 });
 
-export const {
-  ServerGetAll, ServerGetAllForStatus, ServerGetAllError,
-  ServerAdd,ServerAddForStatus,ServerAddError,
-  ServerUpdate,ServerUpdateForStatus,ServerUpdateError,
-  ServerDelete,ServerDeleteForStatus,ServerDeleteError} = ServerSlice.actions;
 
+  export const {
+    ServerRefillSuccess, ServerRefillError,
+    ServerAddSuccess , ServerAddError,
+    ServerUpdateSuccess, ServerUpdateError,
+    ServerDeleteSuccess, ServerDeleteError
 
+  } = ServerSlice.actions;
 export default ServerSlice.reducer;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

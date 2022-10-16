@@ -1,32 +1,23 @@
-import React, { useState, SyntheticEvent } from "react";
-
-
+import React, { useState } from "react";
+import Select from '@mui/material/Select';
+import { ChangeModalStatus } from "features/Slices/ModalSlice";
+import { purple } from "@mui/material/colors";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import SaveIcon from "@mui/icons-material/Save";
+import { useSelector, useDispatch } from "react-redux";
+import { AddOrders } from "features/Slices/OrderingSlice";
 import {
-  FilledInput,
   Typography,
   Card,FormControl,
   CardContent,
   Grid,MenuItem,
   TextField,InputLabel,
-  useMediaQuery,
 } from "@mui/material";
-import { ServerAdd } from "features/Slices/ServerSlice";
 
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
-import { ChangeModalStatus } from "features/Slices/ModalSlice";
-
-import Box from "@mui/material";
-import { purple } from "@mui/material/colors";
-import { ThemeProvider, useTheme, createTheme } from "@mui/material/styles";
-import LoadingButton from "@mui/lab/LoadingButton";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
-import SaveIcon from "@mui/icons-material/Save";
-
-import { useSelector, useDispatch } from "react-redux";
 
 const schema = yup
   .object()
@@ -44,8 +35,7 @@ export default function OrderForm({allHCProviders}) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    reset,
+    formState: { errors }
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -59,17 +49,12 @@ export default function OrderForm({allHCProviders}) {
   const [allValues, setAllValues] = useState(initialValues);
 
   const handelOnChange = (data) => {
-    // console.log(data.target.value)
     const { value, name } = data.target;
 
     setAllValues({ ...allValues, [name]: value });
   };
 
   const [loading, setLoading] = React.useState(false);
-
-  function handleClick() {
-    setLoading(true);
-  }
 
   const CustomersFormHeader = (theme) => ({
     backgroundColor: "#163b60",
@@ -92,23 +77,20 @@ export default function OrderForm({allHCProviders}) {
   });
 
   const handelSubmitForm = (e) => {
-    setLoading(true);
-     
-          const order = {
-      desiredDeliveryDate: allValues.desiredDeliveryDate,
-      quantityDose: allValues.quantityDose,
-      healthcareProvidersId: allValues.healthcareProvidersId,
-      gln: allValues.gln,
-    };
+   //Button status disable and loading animation on
+   setLoading(true);
+  
+   //Send item to DB
+   
+   dispatch(AddOrders(allValues))
 
-    console.log(order)
-    
+   //Button status enable and loading animation off
+    setLoading(false);
 
-    dispatch(ServerAdd({type:"Orderings", values:order}))
+   //Close PopUp Form
+   dispatch(ChangeModalStatus(false))
 
-  setLoading(false);
 
-      dispatch(ChangeModalStatus(false))
     e.preventDefault();
   };
 

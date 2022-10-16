@@ -1,17 +1,5 @@
 import React, { useState } from "react";
-
-
-import {
-  Typography,
-  Card,FormControl,
-  CardContent,
-  Grid,MenuItem,
-  TextField,InputLabel,
-} from "@mui/material";
-import { ServerAdd } from "features/Slices/ServerSlice";
-
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-
+import Select from '@mui/material/Select';
 import { ChangeModalStatus } from "features/Slices/ModalSlice";
 import { purple } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -19,10 +7,16 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
 import SaveIcon from "@mui/icons-material/Save";
-
 import { useSelector, useDispatch } from "react-redux";
+import { AddCapacitie } from "features/Slices/CapacitieSlice";
+import {
+  Typography,
+  Card,FormControl,
+  CardContent,
+  Grid,MenuItem,
+  TextField,InputLabel,
+} from "@mui/material";
 
 const schema = yup
   .object()
@@ -34,13 +28,11 @@ const schema = yup
   .required();
 
 export default function CapacitForm() {
-  const {GetAllCapacitie} = useSelector(state => state.Capacitie)
   const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -61,10 +53,6 @@ export default function CapacitForm() {
   };
 
   const [loading, setLoading] = React.useState(false);
-
-  function handleClick() {
-    setLoading(true);
-  }
 
   const FormHeader = (theme) => ({
     backgroundColor: "#163b60",
@@ -87,24 +75,21 @@ export default function CapacitForm() {
   });
 
   const handelSubmitForm = (e) => {
-    setLoading(true);
-     
-          const capacity = {
-
-            capacityDate: allValues.capacityDate,
-            capacityDoses: allValues.capacityDoses,
-            healthcareProvidersId: allValues.healthcareProvidersId,
-
-    };
-
-    
-
-    dispatch(ServerAdd({type:"Capacities", values:capacity}))
-
-  setLoading(false);
-
-      dispatch(ChangeModalStatus(false))
-    e.preventDefault();
+       //Button status disable and loading animation on
+       setLoading(true);
+  
+       //Send item to DB
+       
+       dispatch(AddCapacitie(allValues))
+   
+       //Button status enable and loading animation off
+     setLoading(false);
+   
+       //Close PopUp Form
+       dispatch(ChangeModalStatus(false))
+   
+   
+       e.preventDefault();
   };
 
 

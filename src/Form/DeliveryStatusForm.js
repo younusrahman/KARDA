@@ -1,5 +1,14 @@
-import React, {useState} from "react";
-
+import React, { useState } from "react";
+import { purple } from "@mui/material/colors";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import SaveIcon from "@mui/icons-material/Save";
+import { useSelector, useDispatch } from "react-redux";
+import { ChangeModalStatus } from "features/Slices/ModalSlice";
+import { AddDeliveryStatus } from "features/Slices/DeliveryStatusSlice";
 import {
   InputLabel,
   Typography,
@@ -8,25 +17,9 @@ import {
   Grid,
   TextField,
   FormControl,
-Select,
-MenuItem,
-
+  Select,
+  MenuItem,
 } from "@mui/material";
-import { purple } from "@mui/material/colors";
-import { ThemeProvider, useTheme, createTheme } from "@mui/material/styles";
-import LoadingButton from '@mui/lab/LoadingButton';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-import SaveIcon from '@mui/icons-material/Save';
-
-
-import { useSelector, useDispatch } from 'react-redux'
-import { ChangeModalStatus } from "features/Slices/ModalSlice";
-import { ServerAdd } from 'features/Slices/ServerSlice'
-
-
 
 const schema = yup
   .object()
@@ -35,43 +28,45 @@ const schema = yup
     plannedDeliveryDate: yup.date(),
     quantityVial: yup.number().min(1),
     vaccineSupplierId: yup.string().min(36),
-    healthcareProvidersId: yup.string().min(36)
-
+    healthcareProvidersId: yup.string().min(36),
   })
   .required();
 
-
 export default function DeliveryStatusForm() {
-  const {GetAllHCProveiders} = useSelector((state) => state.HealthcareProvider)
-  const {GetAllVaccineSuppliers} = useSelector((state) => state.VaccineSupplier)
+  const { GetAllHCProveiders } = useSelector(
+    (state) => state.HealthcareProvider
+  );
+  const { GetAllVaccineSuppliers } = useSelector(
+    (state) => state.VaccineSupplier
+  );
 
-  const {Status} = useSelector(state => state.Modal)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({
-      resolver: yupResolver(schema)
-    });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-    const initialValues = {
-      gln: "",
-      deliveryDate: "",
-      plannedDeliveryDate: "",
-      quantityVial: "",
-      vaccineSupplierId: "",
-      healthcareProvidersId: "",
-    };
-    const [allValues, setAllValues] = useState(initialValues)
+  const initialValues = {
+    gln: "",
+    deliveryDate: "",
+    plannedDeliveryDate: "",
+    quantityVial: "",
+    vaccineSupplierId: "",
+    healthcareProvidersId: "",
+  };
+  const [allValues, setAllValues] = useState(initialValues);
 
-    const handelOnChange = (data) => {
-        
-        const {value, name}= data.target;
+  const handelOnChange = (data) => {
+    const { value, name } = data.target;
 
-        setAllValues({...allValues, [name] : value})
-
-    };
+    setAllValues({ ...allValues, [name]: value });
+  };
 
   const [loading, setLoading] = React.useState(false);
-  
 
   const CustomersFormHeader = (theme) => ({
     backgroundColor: "#163b60",
@@ -93,38 +88,41 @@ export default function DeliveryStatusForm() {
     },
   });
 
+  const handelSubmitForm = (e) => {
+    //Button status disable and loading animation on
+    setLoading(true);
 
-    const handelSubmitForm = (e) => {
-      setLoading(true);
-     
-        dispatch(ServerAdd({type:"DeliveryStatus", values:allValues}))
-    
-      setLoading(false);
+    //Send item to DB
 
-          dispatch(ChangeModalStatus(false))
-      e.preventDefault();
+    dispatch(AddDeliveryStatus(allValues));
 
-    }
+    //Button status enable and loading animation off
+    setLoading(false);
 
+    //Close PopUp Form
+    dispatch(ChangeModalStatus(false));
 
+    e.preventDefault();
+  };
 
   return (
     <>
-    <form onSubmit={handleSubmit(handelSubmitForm)}>
-      <ThemeProvider theme={theme}>
-        <Typography variant="h5" sx={CustomersFormHeader}>
-        Vårdgivare
-        </Typography>
-        <Card className="mt-4" sx={{ border: "#163b60 solid 2px" }}>
-          <CardContent className="flex justify-center">
-            <Grid container spacing={1}>
-            <Grid
+      <form onSubmit={handleSubmit(handelSubmitForm)}>
+        <ThemeProvider theme={theme}>
+          <Typography variant="h5" sx={CustomersFormHeader}>
+            Vårdgivare
+          </Typography>
+          <Card className="mt-4" sx={{ border: "#163b60 solid 2px" }}>
+            <CardContent className="flex justify-center">
+              <Grid container spacing={1}>
+                <Grid
                   item
-                  className="w-full mt-4" sx={{ display:"flex", justifyContent:"center" }}
+                  className="w-full mt-4"
+                  sx={{ display: "flex", justifyContent: "center" }}
                 >
-                   <FormControl variant="standard" className="w-11/12">
+                  <FormControl variant="standard" className="w-11/12">
                     <InputLabel id="demo-simple-select-standard-label">
-                    Välja vårdgivare
+                      Välja vårdgivare
                     </InputLabel>
                     <Select
                       required
@@ -140,20 +138,24 @@ export default function DeliveryStatusForm() {
                         <em>None</em>
                       </MenuItem>
 
-                      {GetAllHCProveiders.map(HCProvider => {
-                        return <MenuItem key={HCProvider.id} value={HCProvider.id}>{HCProvider.name}</MenuItem>
+                      {GetAllHCProveiders.map((HCProvider) => {
+                        return (
+                          <MenuItem key={HCProvider.id} value={HCProvider.id}>
+                            {HCProvider.name}
+                          </MenuItem>
+                        );
                       })}
-               
                     </Select>
-                  </FormControl> 
+                  </FormControl>
                 </Grid>
                 <Grid
                   item
-                  className="w-full mt-4" sx={{ display:"flex", justifyContent:"center" }}
+                  className="w-full mt-4"
+                  sx={{ display: "flex", justifyContent: "center" }}
                 >
-                   <FormControl variant="standard" className="w-11/12">
+                  <FormControl variant="standard" className="w-11/12">
                     <InputLabel id="demo-simple-select-standard-label">
-                    Välja leverantör
+                      Välja leverantör
                     </InputLabel>
                     <Select
                       required
@@ -169,126 +171,105 @@ export default function DeliveryStatusForm() {
                         <em>None</em>
                       </MenuItem>
 
-                      {GetAllVaccineSuppliers.map(supplier => {
-                        return <MenuItem key={supplier.id} value={supplier.id}>{supplier.supplierName}</MenuItem>
+                      {GetAllVaccineSuppliers.map((supplier) => {
+                        return (
+                          <MenuItem key={supplier.id} value={supplier.id}>
+                            {supplier.supplierName}
+                          </MenuItem>
+                        );
                       })}
-               
                     </Select>
-                  </FormControl> 
+                  </FormControl>
                 </Grid>
-            
-                
-              <Grid item  className="w-full flex justify-center">
-                <TextField
-                
-                  color="secondary"
-                  type="number"
-                  className="w-11/12"
-                  inputProps={register('quantityVial')}
-                  onChange={handelOnChange}
-                  required
-                  label="Kvantitet vial"
-                  variant="standard"
-                  sx={CustomersFormTextfild}
-                  helperText= {errors.quantityVial?.message && errors.name?.message.charAt(0).toUpperCase() + errors.quantityVial?.message.slice(1)}
-                />
-              </Grid>
-             
 
-          
-                <Grid
-                  item
-                  className="w-full flex justify-center"
-                >
+                <Grid item className="w-full flex justify-center">
+                  <TextField
+                    color="secondary"
+                    type="number"
+                    className="w-11/12"
+                    inputProps={register("quantityVial")}
+                    onChange={handelOnChange}
+                    required
+                    label="Kvantitet vial"
+                    variant="standard"
+                    sx={CustomersFormTextfild}
+                    helperText={
+                      errors.quantityVial?.message &&
+                      errors.name?.message.charAt(0).toUpperCase() +
+                        errors.quantityVial?.message.slice(1)
+                    }
+                  />
+                </Grid>
+
+                <Grid item className="w-full flex justify-center">
                   <TextField
                     color="secondary"
                     className="w-11/12"
-           
                     onChange={handelOnChange}
                     name="plannedDeliveryDate"
-       
                     required
                     variant="standard"
                     type="date"
                     sx={CustomersFormTextfild}
-                    
                     helperText={
                       errors.plannedDeliveryDate?.message ||
                       "Planerat lev. datum"
                     }
                   />
                 </Grid>
-                <Grid
-                  item
-                  className="w-full flex justify-center"
-                >
+                <Grid item className="w-full flex justify-center">
                   <TextField
                     color="secondary"
                     className="w-11/12"
-           
                     onChange={handelOnChange}
                     name="deliveryDate"
-       
                     required
                     variant="standard"
                     type="date"
                     sx={CustomersFormTextfild}
-                    
                     helperText={
-                      errors.deliveryDate?.message ||
-                      "DeliveryDate lev. datum"
+                      errors.deliveryDate?.message || "DeliveryDate lev. datum"
                     }
                   />
                 </Grid>
 
+                <Grid item className="w-full flex justify-center">
+                  <TextField
+                    color="secondary"
+                    className="w-11/12"
+                    inputProps={register("gln")}
+                    onChange={handelOnChange}
+                    label="GLN"
+                    variant="standard"
+                    sx={CustomersFormTextfild}
+                    helperText={
+                      errors.gln?.message &&
+                      errors.name?.message.charAt(0).toUpperCase() +
+                        errors.gln?.message.slice(1)
+                    }
+                  />
+                </Grid>
 
-
-
-
-
-
-
-
-
-             
-              <Grid item  className="w-full flex justify-center">
-                <TextField
-                
-                  color="secondary"
-                  className="w-11/12"
-                  inputProps={register('gln')}
-                  onChange={handelOnChange}
-          
-                  label="GLN"
-                  variant="standard"
+                <Grid
+                  className="w-full flex justify-center"
                   sx={CustomersFormTextfild}
-                  helperText= {errors.gln?.message && errors.name?.message.charAt(0).toUpperCase() + errors.gln?.message.slice(1)}
-                />
-              </Grid>
-       
-             
-
-              <Grid
-       
-                className="w-full flex justify-center"
-                sx={CustomersFormTextfild}
-              >
-                <LoadingButton
-                  color="secondary"
-                  type="submit"
-                  loading={loading}
-                  loadingPosition="start"
-                  startIcon={<SaveIcon />}
-                  variant="contained"
-                  className="w-11/12"
                 >
-                  Spara
-                </LoadingButton>
+                  <LoadingButton
+                    color="secondary"
+                    type="submit"
+                    loading={loading}
+                    loadingPosition="start"
+                    startIcon={<SaveIcon />}
+                    variant="contained"
+                    className="w-11/12"
+                  >
+                    Spara
+                  </LoadingButton>
+                </Grid>
               </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      </ThemeProvider>
+            </CardContent>
+          </Card>
+        </ThemeProvider>
       </form>
     </>
   );
