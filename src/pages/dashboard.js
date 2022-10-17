@@ -25,7 +25,7 @@ export default function Dashboard() {
   return (
     <Typography component="div" sx={{display:'flex', margin:"1rem", width:"98%"}}>
       <Typography component="div" sx={{ width:"60%"}}>
-        <h1>hello</h1>
+        <h1>Charts</h1>
       </Typography>
       <Typography component="div" sx={{width:"40%"}}>
         <CardComponent titel="Vårdgivare" link={"/HealthcareProvider"} icon = {<PeopleIcon />} count={GetAllHCProveiders.length} />
