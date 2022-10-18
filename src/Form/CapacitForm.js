@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Select from '@mui/material/Select';
-import { ChangeModalStatus } from "features/Slices/ModalSlice";
+import { ChangeModalStatus } from "features/Slices/OtherSlice/ModalSlice";
 import { purple } from "@mui/material/colors";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import SaveIcon from "@mui/icons-material/Save";
 import { useSelector, useDispatch } from "react-redux";
-import { AddCapacitie } from "features/Slices/CapacitieSlice";
+import { AddCapacitie } from "features/Slices/PagesSlices/CapacitieSlice";
 import {
   Typography,
   Card,FormControl,

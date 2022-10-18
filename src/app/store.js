@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import ServerReducer from '../features/Slices/ServerSlice';
-import HealthcareProviderReducer from 'features/Slices/HealthcareProviderSlice';
-import ModalReducer from 'features/Slices/ModalSlice';
-import OrderingReducer from 'features/Slices/OrderingSlice';
-import CapacitieReducer from 'features/Slices/CapacitieSlice';
-import ConsumptionReducer from 'features/Slices/ConsumptionSlice';
-import VaccineSupplierReducer from 'features/Slices/VaccineSupplierSlice';
-import InventoryBalanceReducer from 'features/Slices/InventoryBalanceSlice';
-import DeliveryStatusReducer from 'features/Slices/DeliveryStatusSlice';
+import ServerReducer from 'features/Slices/DatabaseIntegration/ServerSlice';
+import HealthcareProviderReducer from 'features/Slices/PagesSlices/HealthcareProviderSlice';
+import ModalReducer from 'features/Slices/OtherSlice/ModalSlice';
+import OrderingReducer from 'features/Slices/PagesSlices/OrderingSlice';
+import CapacitieReducer from 'features/Slices/PagesSlices/CapacitieSlice';
+import ConsumptionReducer from 'features/Slices/PagesSlices/ConsumptionSlice';
+import VaccineSupplierReducer from 'features/Slices/PagesSlices/VaccineSupplierSlice';
+import InventoryBalanceReducer from 'features/Slices/PagesSlices/InventoryBalanceSlice';
+import DeliveryStatusReducer from 'features/Slices/PagesSlices/DeliveryStatusSlice';
 export const store = configureStore({
   reducer: {
     Server : ServerReducer,

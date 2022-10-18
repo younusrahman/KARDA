@@ -7,7 +7,8 @@ import HealthcareProviderForm from 'Form/HealthcareProviderForm'
 import { RefillDatabaseFunction } from 'features/RefillDatabase'
 import { useGridApiRef } from '@mui/x-data-grid';
 import { HealthcareProviderColumns } from 'features/AllColumns'
-import { UpdateHealthcareProvider, DeleteHealthcareProvider } from 'features/Slices/HealthcareProviderSlice'
+import { UpdateHealthcareProvider, DeleteHealthcareProvider } from 'features/Slices/PagesSlices/HealthcareProviderSlice'
+import { ModelType } from 'features/ModelType';
 
 
 export default function HealthcareProvider() {
@@ -33,7 +34,7 @@ export default function HealthcareProvider() {
   return (
     <div>
       <TabelComponent title={"Vårdgivare"} 
-      type="HealthcareProviders"
+      type= {ModelType.HealthcareProvider}
       editFunc={UpdateHealthcareProvider}
       values={GetAllHCProveiders} 
       allColumns={HealthcareProviderColumns} 

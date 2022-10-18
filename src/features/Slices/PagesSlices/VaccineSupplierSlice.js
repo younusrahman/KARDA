@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/ServerSlice";
+import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/DatabaseIntegration/ServerSlice";
+import { ModelType } from 'features/ModelType';
 
 
 
@@ -9,7 +10,7 @@ const initialState = {
 };
 
 //This name have to match CURD oparation names
-const type = "VaccineSuppliers"
+
 
 export const VaccineSupplierSlice = createSlice({
   name: 'VaccineSupplier',
@@ -20,16 +21,16 @@ export const VaccineSupplierSlice = createSlice({
     },
 
     RefillSupplier: (state) => {
-      RefillAsync({type:type, func:SetAllVaccineSuppliers})
+      RefillAsync({type:ModelType.VaccineSupplier, func:SetAllVaccineSuppliers})
     },
     AddSupplier: (state, {payload}) => {
-      AddAsync({type:type, values:payload})
+      AddAsync({type:ModelType.VaccineSupplier, values:payload})
     },
     UpdateSupplier: (state, {payload}) => {
-      UpdateAsync({type:type,id:payload.id,values:payload.values})
+      UpdateAsync({type:ModelType.VaccineSupplier,id:payload.id,values:payload.values})
     },
     DeleteSupplier: (state, {payload}) => {
-      DeleteAsync({type:type, ids:payload})
+      DeleteAsync({type:ModelType.VaccineSupplier, ids:payload})
     },
 
     

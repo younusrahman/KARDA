@@ -23,6 +23,7 @@ export const MenuItems = [{
   path: '/dashBoard',
   component: <Dashboard/>,
   icon: <GridViewIcon />
+  
 }, {
   text: "Inleverans",
   path: '/deliveryStatus',
@@ -44,7 +45,6 @@ export const MenuItems = [{
   component: <Capacity/>,
   icon: <ReduceCapacityIcon />,
 }, 
-
 {
   text: "vårdgivare",    
   path: '/HealthcareProvider',
@@ -56,11 +56,11 @@ export const MenuItems = [{
   text: "Beställning",    
   path: '/ordering',
   component: <Ordering/>,
-  icon: <ViewListIcon />,
+  icon: <ViewListIcon />
 } 
 ,{
   text: "Vaccin Leverantör",    
   path: '/vaccinesupplier',
   component: <VaccineSupplier/>,
-  icon: <SupportAgentIcon />,
+  icon: <SupportAgentIcon />  
 } ];

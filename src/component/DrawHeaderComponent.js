@@ -4,9 +4,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import Divider from "@mui/material/Divider";
-
 import List from "@mui/material/List";
-
 import ListItem from "@mui/material/ListItem";
 
 import { Link } from "react-router-dom";

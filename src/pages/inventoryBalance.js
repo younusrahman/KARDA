@@ -1,5 +1,3 @@
-
-
 import React, {useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import ModalComponent from 'component/ModalComponent'
@@ -8,9 +6,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { RefillDatabaseFunction } from 'features/RefillDatabase'
 import InventoryBalanceForm from 'Form/InventoryBalanceForm'
 import { InventoryBalanceColumns } from 'features/AllColumns'
-import { UpdateInventoryBalance, DeleteInventoryBalance } from "features/Slices/InventoryBalanceSlice";
-
-
+import { UpdateInventoryBalance, DeleteInventoryBalance  } from 'features/Slices/PagesSlices/InventoryBalanceSlice';
+import { ModelType } from 'features/ModelType';
 
 
 export default function InventoryBalance() {
@@ -42,8 +39,8 @@ export default function InventoryBalance() {
 
   return (
     <div>
-      <TabelComponent title={"LagerSaldo"} 
-      type="inventoryBalances"
+      <TabelComponent title={"Lagersaldo"} 
+      type={ModelType.InventoryBalance}
       editFunc={UpdateInventoryBalance}
       values={GetAllInventoryBalance} 
       allColumns={InventoryBalanceColumns} 

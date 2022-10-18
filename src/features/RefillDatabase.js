@@ -1,11 +1,11 @@
 import { store } from "app/store";
-import { RefillOrders } from "./Slices/OrderingSlice";
-import { RefillHealthcareProvider} from "../features/Slices/HealthcareProviderSlice"
-import { RefillSupplier} from "./Slices/VaccineSupplierSlice";
-import { RefillConsumption} from "./Slices/ConsumptionSlice";
-import { RefillCapacitie} from "./Slices/CapacitieSlice";
-import { RefillInventoryBalance} from "./Slices/InventoryBalanceSlice";
-import { RefillDeliveryStatus } from "./Slices/DeliveryStatusSlice";
+import { RefillOrders } from "features/Slices/PagesSlices/OrderingSlice";
+import { RefillHealthcareProvider} from "features/Slices/PagesSlices/HealthcareProviderSlice"
+import { RefillSupplier} from "features/Slices/PagesSlices/VaccineSupplierSlice";
+import { RefillConsumption} from "features/Slices/PagesSlices/ConsumptionSlice";
+import { RefillCapacitie} from "features/Slices/PagesSlices/CapacitieSlice";
+import { RefillInventoryBalance} from "features/Slices/PagesSlices/InventoryBalanceSlice";
+import { RefillDeliveryStatus } from "features/Slices/PagesSlices/DeliveryStatusSlice";
 
 export function RefillDatabaseFunction(){
     store.dispatch(RefillOrders())

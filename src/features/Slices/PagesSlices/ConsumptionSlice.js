@@ -1,12 +1,11 @@
 import {createSlice } from '@reduxjs/toolkit';
-import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/ServerSlice";
-
+import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/DatabaseIntegration/ServerSlice";
+import { ModelType } from 'features/ModelType';
 
 const initialState = {
   GetAllConsumption: "",
 };
 
-const type = "Consumptions"
 
 export const ConsumptionSlice = createSlice({
   name: 'Consumption',
@@ -16,16 +15,16 @@ export const ConsumptionSlice = createSlice({
         state.GetAllConsumption = payload;
     },
     RefillConsumption: (state, {payload}) => {
-      RefillAsync({type:type, func:SetAllConsumption})
+      RefillAsync({type:ModelType.Consumption, func:SetAllConsumption})
     },
     AddConsumption: (state, {payload}) => {
-      AddAsync({type:type, values:payload})
+      AddAsync({type:ModelType.Consumption, values:payload})
     },
     UpdateConsumption: (state, {payload}) => {
-      UpdateAsync({type:type,id:payload.id,values:payload.values})
+      UpdateAsync({type:ModelType.Consumption,id:payload.id,values:payload.values})
     },
     DeleteConsumption: (state, {payload}) => {
-      DeleteAsync({type:type, ids:payload})
+      DeleteAsync({type:ModelType.Consumption, ids:payload})
     },
 
 

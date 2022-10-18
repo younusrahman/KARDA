@@ -39,9 +39,6 @@ export default function TabelComponent({
 
 
 
-function handelDubbelClickEvent (e){
-  setOldRowValue(e.row) 
-}
 
 const processRowUpdate = (newRow) => {
 
@@ -63,13 +60,6 @@ const processRowUpdate = (newRow) => {
   return oldRowValue;
 };
 
-
-
-
-const onRowsSelectionHandler = (ids) => {
-
-  setRemoveRows(ids)
-};
 
 const EnsureArray = Array.isArray(values) ? values : []
 
@@ -97,9 +87,8 @@ const EnsureArray = Array.isArray(values) ? values : []
           experimentalFeatures={{ newEditingApi: true }}
           components={{Toolbar: GridToolbar}}
           processRowUpdate={processRowUpdate}
-
-          onSelectionModelChange={(ids) => onRowsSelectionHandler(ids)}
-          onCellDoubleClick={e => handelDubbelClickEvent(e)}
+          onSelectionModelChange={(ids) => setRemoveRows(ids)}
+          onCellDoubleClick={e => setOldRowValue(e.row)}
 
           componentsProps={{
             panel: {

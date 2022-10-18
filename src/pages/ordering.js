@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { UpdateOrders , DeleteOrders} from 'features/Slices/OrderingSlice';
 import TabelComponent from 'component/TabelComponent';
 import ModalComponent from 'component/ModalComponent';
 import AddIcon from '@mui/icons-material/Add';
 import OrderForm from 'Form/OrderForm';
 import { RefillDatabaseFunction } from 'features/RefillDatabase';
 import { OrderingColums } from 'features/AllColumns';
-
+import { UpdateOrders , DeleteOrders } from 'features/Slices/PagesSlices/OrderingSlice';
+import { ModelType } from 'features/ModelType';
 
 
 export default function Ordering() {
@@ -26,7 +26,7 @@ export default function Ordering() {
   return (
     <div>
     <TabelComponent title={"Order"} 
-    type="Orderings"
+    type={ModelType.Ordering}
     editFunc={UpdateOrders}
     values={GetAllOrders} 
     allColumns={OrderingColums} 

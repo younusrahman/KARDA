@@ -6,7 +6,8 @@ import AddIcon from '@mui/icons-material/Add';
 import ConsumptionForm from 'Form/ConsumptionForm'
 import { RefillDatabaseFunction } from 'features/RefillDatabase'
 import { ConsumptionColumns } from 'features/AllColumns'
-import { DeleteConsumption, UpdateConsumption } from 'features/Slices/ConsumptionSlice';
+import { DeleteConsumption, UpdateConsumption } from 'features/Slices/PagesSlices/ConsumptionSlice';
+import { ModelType } from 'features/ModelType';
 
 
 
@@ -33,7 +34,7 @@ export default function HealthcareProvider() {
   return (
     <div>
       <TabelComponent title={"Förbrukning"} 
-      type="consumptions"
+      type={ModelType.Consumption}
       editFunc={UpdateConsumption}
       values={GetAllConsumption} 
       allColumns={ConsumptionColumns} 

@@ -4,10 +4,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { ChangeModalStatus } from 'features/Slices/ModalSlice';
+import { ChangeModalStatus } from 'features/Slices/OtherSlice/ModalSlice';
 
 export default function ModalComponent({text,icon,CustomizeForm}) {
-  const [open, setOpen] = React.useState(false);
   const handleOpen = () => dispatch(ChangeModalStatus(true));
 
   const {Status} = useSelector(state => state.Modal)
@@ -29,10 +28,10 @@ export default function ModalComponent({text,icon,CustomizeForm}) {
 
 useEffect(() => {
 
-  const { innerWidth: width, innerHeight: height } = window;
+  const { innerWidth: width} = window;
   setWindowsWidth(width)
 
-})
+},[])
 
   return (
     <Typography>
