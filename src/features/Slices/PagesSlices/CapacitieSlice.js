@@ -1,13 +1,13 @@
 import {createSlice } from '@reduxjs/toolkit';
-import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/ServerSlice";
-
+import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/DatabaseIntegration/ServerSlice";
+import { ModelType } from 'features/ModelType';
 
 
 const initialState = {
   GetAllCapacitie: "",
 };
 
-const type = "Capacities"
+
 
 export const CapacitieSlice = createSlice({
   name: 'Capacitie',
@@ -17,16 +17,16 @@ export const CapacitieSlice = createSlice({
         state.GetAllCapacitie = payload;
     },
     RefillCapacitie: (state, {payload}) => {
-      RefillAsync({type:type, func:SetAllCapacitie})
+      RefillAsync({type:ModelType.Capacitie, func:SetAllCapacitie})
     },
     AddCapacitie: (state, {payload}) => {
-      AddAsync({type:type, values:payload})
+      AddAsync({type:ModelType.Capacitie, values:payload})
     },
     UpdateCapacitie: (state, {payload}) => {
-      UpdateAsync({type:type,id:payload.id,values:payload.values})
+      UpdateAsync({type:ModelType.Capacitie,id:payload.id,values:payload.values})
     },
     DeleteCapacitie: (state, {payload}) => {
-      DeleteAsync({type:type, ids:payload})
+      DeleteAsync({type:ModelType.Capacitie, ids:payload})
     },
 
 

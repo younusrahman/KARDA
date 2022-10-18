@@ -8,6 +8,7 @@ const  baseUrl = "https://localhost:7133/api";
 const statusType= {idle:"Idle", loading : "Loading", fulfilled : "Fulfilled", rejected : "Rejected"  }
 
 
+//Function to retrieve data from the database
 
 export async function RefillAsync(props){
 
@@ -32,7 +33,7 @@ export async function RefillAsync(props){
   
 }
 
-
+//Function for add data to database
 export async function AddAsync({type, values}){
 
 
@@ -57,6 +58,7 @@ export async function AddAsync({type, values}){
 }
 
 
+//Functon for update data in database
 export async function UpdateAsync({type, id, values}){
   const url = `${baseUrl}/${type}/${id}`
     
@@ -78,7 +80,7 @@ export async function UpdateAsync({type, id, values}){
   
 }
 
-
+//Function for remove data from database
 export async function DeleteAsync({type, ids}){
 
   const url = `${baseUrl}/${type}`
@@ -104,7 +106,7 @@ export async function DeleteAsync({type, ids}){
 
 
 
-// ------------------------------------------Slice
+// ------------------------------------------Slice for get &  set  status for function above
 
 
 //Status Variable

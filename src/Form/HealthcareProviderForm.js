@@ -7,8 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import SaveIcon from "@mui/icons-material/Save";
 import { useDispatch } from "react-redux";
-import { ChangeModalStatus } from "features/Slices/ModalSlice";
-import { AddHealthcareProvider } from "features/Slices/HealthcareProviderSlice";
+import { ChangeModalStatus } from "features/Slices/OtherSlice/ModalSlice";
+import { AddHealthcareProvider } from "features/Slices/PagesSlices/HealthcareProviderSlice";
 
 import {
 

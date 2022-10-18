@@ -1,13 +1,12 @@
 import {createSlice } from '@reduxjs/toolkit';
-import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/ServerSlice";
-
-
+import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/DatabaseIntegration/ServerSlice";
+import { ModelType } from 'features/ModelType';
 
 const initialState = {
   GetAllHCProveiders: "",
 };
 
-const type = "HealthcareProviders"
+
 
 export const healthcareProviderSlice = createSlice({
   name: 'HealthcareProvider',
@@ -18,16 +17,16 @@ export const healthcareProviderSlice = createSlice({
         state.GetAllHCProveiders = payload;
     },
     RefillHealthcareProvider: (state, {payload}) => {
-      RefillAsync({type:type, func:SetAllHCProveiders})
+      RefillAsync({type:ModelType.HealthcareProvider, func:SetAllHCProveiders})
     },
     AddHealthcareProvider: (state, {payload}) => {
-      AddAsync({type:type, values:payload})
+      AddAsync({type:ModelType.HealthcareProvider, values:payload})
     },
     UpdateHealthcareProvider: (state, {payload}) => {
-      UpdateAsync({type:type,id:payload.id,values:payload.values})
+      UpdateAsync({type:ModelType.HealthcareProvider,id:payload.id,values:payload.values})
     },
     DeleteHealthcareProvider: (state, {payload}) => {
-      DeleteAsync({type:type, ids:payload})
+      DeleteAsync({type:ModelType.HealthcareProvider, ids:payload})
     },
 
 

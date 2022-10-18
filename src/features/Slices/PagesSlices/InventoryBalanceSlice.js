@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/ServerSlice";
+import { ModelType } from 'features/ModelType';
+import { AddAsync, UpdateAsync,DeleteAsync , RefillAsync } from "features/Slices/DatabaseIntegration/ServerSlice";
 
 
 const initialState = {
   GetAllInventoryBalance: "",
 };
 
-const type = "InventoryBalances"
+
+
 
 export const InventoryBalanceSlice = createSlice({
   name: 'InventoryBalance',
@@ -17,16 +19,16 @@ export const InventoryBalanceSlice = createSlice({
         state.GetAllInventoryBalance = payload;
     },
     RefillInventoryBalance: (state, {payload}) => {
-      RefillAsync({type:type, func:SetAllInventoryBalance})
+      RefillAsync({type:ModelType.InventoryBalance, func:SetAllInventoryBalance})
     },
     AddInventoryBalance: (state, {payload}) => {
-      AddAsync({type:type, values:payload})
+      AddAsync({type:ModelType.InventoryBalance, values:payload})
     },
     UpdateInventoryBalance: (state, {payload}) => {
-      UpdateAsync({type:type,id:payload.id,values:payload.values})
+      UpdateAsync({type:ModelType.InventoryBalance,id:payload.id,values:payload.values})
     },
     DeleteInventoryBalance: (state, {payload}) => {
-      DeleteAsync({type:type, ids:payload})
+      DeleteAsync({type:ModelType.InventoryBalance, ids:payload})
     },
 
 

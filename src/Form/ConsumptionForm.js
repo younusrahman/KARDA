@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import SaveIcon from "@mui/icons-material/Save";
 import { useSelector, useDispatch } from "react-redux";
-import { ChangeModalStatus } from "features/Slices/ModalSlice";
+import { ChangeModalStatus } from "features/Slices/OtherSlice/ModalSlice";
 import {
   Typography,
   Card,
@@ -19,7 +19,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { AddConsumption } from "features/Slices/ConsumptionSlice";
+import { AddConsumption } from "features/Slices/PagesSlices/ConsumptionSlice";
 
 const schema = yup
   .object()

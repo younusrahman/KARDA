@@ -7,8 +7,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import SaveIcon from "@mui/icons-material/Save";
 import { useSelector, useDispatch } from "react-redux";
-import { ChangeModalStatus } from "features/Slices/ModalSlice";
-import { AddDeliveryStatus } from "features/Slices/DeliveryStatusSlice";
+import { ChangeModalStatus } from "features/Slices/OtherSlice/ModalSlice";
+import { AddDeliveryStatus } from "features/Slices/PagesSlices/DeliveryStatusSlice";
 import {
   InputLabel,
   Typography,

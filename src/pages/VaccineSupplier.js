@@ -6,7 +6,8 @@ import AddIcon from '@mui/icons-material/Add';
 import VaccineSuppliersForm from 'Form/VaccineSuppliersForm';
 import { RefillDatabaseFunction } from 'features/RefillDatabase';
 import { VaccineSupplierColums } from 'features/AllColumns';
-import { UpdateSupplier, DeleteSupplier } from 'features/Slices/VaccineSupplierSlice';
+import { UpdateSupplier, DeleteSupplier } from 'features/Slices/PagesSlices/VaccineSupplierSlice';
+import { ModelType } from 'features/ModelType';
 
 
 
@@ -27,7 +28,7 @@ const modal = <ModalComponent text="Lägg till beställning"  icon={<AddIcon />}
  return (
     <div>
     <TabelComponent title={"Vaccin leverantör"} 
-    type="vaccineSuppliers"
+    type={ModelType.VaccineSupplier}
     editFunc={UpdateSupplier}
     values={GetAllVaccineSuppliers} 
     allColumns={VaccineSupplierColums} 

@@ -4,9 +4,9 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
 import { Route, Routes } from "react-router-dom";
-//Page
+//first Page
 import Dashboard from "./pages/Dashboard";
-// Other features
+// Other features/menu items
 import { MenuItems } from "features/MenuItems";
 import AppbarComponent from "component/AppbarComponent";
 import DrawHeaderComponent from "component/DrawHeaderComponent";
@@ -77,11 +77,14 @@ export default function App() {
   ));
 
   return (
-    <Box sx={{ display: "flex",}}>
+    <Box className="flex">
       <CssBaseline />
+    {/* Bar on top */}
       <AppbarComponent open={open} handleDrawerOpen={handleDrawerOpen} AppBar={AppBar}/>
+      {/* Menu that slide from side */}
       <DrawHeaderComponent drawerWidth={drawerWidth} open={open} setOpen={setOpen} DrawerHeader={DrawerHeader} MenuItems={MenuItems}/>
       <Main open={open}>
+        {/* {"space from top bar"} */}
         <DrawerHeader />
         <Routes>
         <Route path="/" element={<Dashboard />} />

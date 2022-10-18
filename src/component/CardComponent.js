@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography } from '@mui/material';
+import { Avatar,  Card, CardContent, Grid, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 

@@ -6,7 +6,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { RefillDatabaseFunction } from 'features/RefillDatabase'
 import DeliveryStatusForm from 'Form/DeliveryStatusForm'
 import { DeliveryStatusColumns } from 'features/AllColumns'
-import { UpdateDeliveryStatus, DeleteDeliveryStatus  } from 'features/Slices/DeliveryStatusSlice'
+import { UpdateDeliveryStatus, DeleteDeliveryStatus  } from 'features/Slices/PagesSlices/DeliveryStatusSlice'
+import { ModelType } from 'features/ModelType';
 
 
 export default function DeliveryStatus() {
@@ -19,13 +20,6 @@ export default function DeliveryStatus() {
         
     }, [])
 
-    
-
-   
-    
-
-
-
 
     const modal = <ModalComponent text="Lagersaldo"  icon={<AddIcon />} CustomizeForm={DeliveryStatusForm}/>
 
@@ -33,7 +27,7 @@ export default function DeliveryStatus() {
   return (
     <div>
       <TabelComponent title={"Lagersaldo"} 
-      type="DeliveryStatus"
+      type={ModelType.DeliveryStatus}
       editFunc={UpdateDeliveryStatus}
       values={GetAllDeliveryStatus} 
       allColumns={DeliveryStatusColumns} 
